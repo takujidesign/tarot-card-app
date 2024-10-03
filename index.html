@@ -261,7 +261,7 @@
                 do {
                     const randomIndex = Math.floor(Math.random() * tarotDeck.length);
                     card = tarotDeck[randomIndex];
-                } while (selectedCards.includes(card));
+                } while (selectedCards.some(selected => selected.name === card.name));
 
                 // โอกาส 20% ที่ไพ่จะกลับหัว
                 const isReversed = Math.random() < 0.2;
