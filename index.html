@@ -56,18 +56,23 @@
             position: relative;
         }
 
-        .card {
-            width: 120px; /* ขนาดเพิ่มขึ้น 20% */
-            height: 216px; /* ขนาดเพิ่มขึ้น 20% */
-            border-radius: 10px;
+        /* กำหนดขนาดของไพ่และตำแหน่งของเงา */
+        .card-wrapper {
             position: relative;
-            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.3); /* เงาและแสงเรืองที่ด้านล่าง */
-            transition: box-shadow 0.3s ease;
+            width: 120px;
+            height: 216px;
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.3); /* เงาและแสงเรืองไม่หมุน */
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        /* เงาและแสงเรืองคงที่ไม่กลับหัว */
-        .card-container .card-shadow {
-            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.3);
+        .card {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
         }
 
         .reversed {
@@ -274,7 +279,9 @@
                 // จัดเรียงไพ่เป็นครึ่งวงกลม พร้อมตัวเลขกำกับ โดยแสงและเงาไม่หมุนตามไพ่
                 tarotCardsDiv.innerHTML += `
                     <div class="card-container">
-                        <img class="card ${isReversed ? 'reversed' : ''}" src="${card.img}" alt="${card.name}">
+                        <div class="card-wrapper">
+                            <img class="card ${isReversed ? 'reversed' : ''}" src="${card.img}" alt="${card.name}">
+                        </div>
                         <div class="card-number">${drawCount}</div>
                     </div>
                 `;
