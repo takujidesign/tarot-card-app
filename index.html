@@ -26,7 +26,7 @@
             padding: 20px;
             border-radius: 15px;
             box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2); /* เพิ่มแสงเงารอบกล่อง */
-            max-width: 800px;
+            max-width: 600px;
         }
 
         h1 {
@@ -43,21 +43,25 @@
         #tarot-card {
             font-size: 1.5em;
             margin-top: 20px;
-            display: grid;
-            grid-template-columns: repeat(5, 1fr); /* จัดเรียงเป็น 2 แถว 5 ใบต่อแถว */
-            grid-gap: 15px;
-            justify-items: center;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 10px;
         }
 
         .card {
             width: 100px;
             height: 180px;
             border-radius: 10px;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
             position: relative;
+            transform: rotate(0deg); /* ปรับหมุนให้อยู่ครึ่งวงกลม */
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
         }
 
-        /* ตัวเลขลำดับที่กำกับบนไพ่ */
+        .reversed {
+            transform: rotate(180deg); /* กลับหัวไพ่ */
+        }
+
         .card-number {
             position: absolute;
             top: 5px;
@@ -69,29 +73,28 @@
             border-radius: 3px;
         }
 
-        /* ไพ่กลับหัว */
-        .reversed {
-            transform: rotate(180deg);
-        }
-
         /* ปุ่มสุ่มไพ่ */
         button {
-            padding: 10px;
-            font-size: 1em;
+            padding: 15px;
+            font-size: 1.2em;
             background-color: #B8860B; /* สีทองเข้มขึ้น */
             color: white;
             border: 2px solid #FFD700;
             border-radius: 10px;
             cursor: pointer;
             margin-top: 20px;
-            width: 50%; /* ขนาดเล็กลงครึ่งหนึ่ง */
+            display: flex;
+            flex-direction: column; /* เรียงข้อความด้านบน รูปภาพด้านล่าง */
+            align-items: center;
+            justify-content: center; /* จัดให้อยู่ตรงกลางในแนวตั้ง */
+            width: 100%; /* ทำให้ปุ่มกว้างเต็มที่ */
             transition: background-color 0.3s ease;
-            box-shadow: 0 0 15px rgba(218, 165, 32, 0.9); /* แสงสีทองเข้ม */
+            box-shadow: 0 0 15px rgba(218, 165, 32, 0.9); /* แสงสีทองเข้มขึ้น */
         }
 
         button img {
-            width: 60px;
-            height: 100px;
+            width: 190px;
+            height: 315px;
             margin-top: 10px;
             border-radius: 10px;
         }
@@ -99,6 +102,14 @@
         button:hover {
             background-color: #8B6508; /* สีทองเข้มกว่าเมื่อ hover */
             box-shadow: 0 0 25px rgba(255, 255, 0, 0.8); /* เปลี่ยนสีแสงเมื่อ hover */
+        }
+
+        img {
+            width: 100px;
+            height: 180px;
+            margin: 0 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3); /* แสงรอบภาพไพ่ */
         }
 
         /* ปุ่ม "ทำนายอีกครั้ง / Draw Again" */
@@ -257,7 +268,7 @@
                 selectedCards.push({ ...card, isReversed }); // เก็บไพ่ที่สุ่มแล้ว
                 drawCount++;
 
-                // แสดงผลไพ่ใน 2 แถว พร้อมตัวเลขกำกับลำดับ
+                // จัดเรียงไพ่เป็นครึ่งวงกลม พร้อมตัวเลขกำกับ
                 tarotCardsDiv.innerHTML += `
                     <div class="card ${isReversed ? 'reversed' : ''}">
                         <div class="card-number">${drawCount}</div>
@@ -270,12 +281,12 @@
                 drawButton.disabled = false; // เปิดการใช้งานปุ่มอีกครั้ง
 
                 // เปลี่ยนข้อความแสดงสถานะการจับไพ่
-                if (drawCount < 10) {
+                if (drawCount < 5) {
                     document.getElementById('draw-status').textContent = `จับไพ่ใบที่ ${drawCount + 1}`;
                 } else {
-                    drawButton.style.display = 'none'; // ซ่อนปุ่มสุ่มไพ่หลังจากสุ่มครบ 10 ครั้ง
+                    drawButton.style.display = 'none'; // ซ่อนปุ่มสุ่มไพ่หลังจากสุ่มครบ 5 ครั้ง
                     drawAgainButton.style.display = 'block'; // แสดงปุ่ม "ทำนายอีกครั้ง"
-                    document.getElementById('draw-status').textContent = 'คุณจับไพ่ครบ 10 ใบแล้ว';
+                    document.getElementById('draw-status').textContent = 'คุณจับไพ่ครบ 5 ใบแล้ว';
                 }
             }, 2000); // ตั้งเวลาให้รอ 2 วินาทีเพื่อจำลองการ "Shuffle"
         }
