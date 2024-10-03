@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Magic Tarot</title>
+    <style>
+        /* จัดให้ทั้งหน้าจออยู่ตรงกลาง */
+        body {
+            font-family: 'Cursive', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* ใช้ความสูงเต็มหน้าจอ */
+            background-color: #1d1d1d; /* พื้นหลังสีดำ */
+            color: #f5e1da; /* สีข้อความที่ดูนุ่มนวล */
+            margin: 0;
+            background-image: url('images/stars_background.jpg'); /* เพิ่มพื้นหลังดวงดาว */
+            background-size: cover;
+        }
+
+        /* กล่องเนื้อหาที่ดูมีมนต์ขลัง */
+        .container {
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2); /* เพิ่มแสงเงารอบกล่อง */
+            max-width: 600px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #FFD700; /* สีทอง */
+            text-shadow: 0 0 10px rgba(255, 255, 0, 0.8);
+        }
+
+        p {
+            font-size: 1.2em;
+            color: #e2d3c5; /* สีข้อความ */
+        }
+
+        #tarot-card {
+            font-size: 1.5em;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* ปุ่มสุ่มไพ่ */
+        button {
+            padding: 15px;
+            font-size: 1.2em;
+            background-color: #B8860B; /* สีทองเข้มขึ้น */
+            color: white;
+            border: 2px solid #FFD700;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column; /* เรียงข้อความด้านบน รูปภาพด้านล่าง */
+            align-items: center;
+            justify-content: center; /* จัดให้อยู่ตรงกลางในแนวตั้ง */
+            width: 100%; /* ทำให้ปุ่มกว้างเต็มที่ */
+            transition: background-color 0.3s ease;
+            box-shadow: 0 0 15px rgba(218, 165, 32, 0.9); /* แสงสีทองเข้มขึ้น */
+        }
+
+        button img {
+            width: 190px;
+            height: 315px;
+            margin-top: 10px;
+            border-radius: 10px;
+        }
+
+        button:hover {
+            background-color: #8B6508; /* สีทองเข้มกว่าเมื่อ hover */
+            box-shadow: 0 0 25px rgba(255, 255, 0, 0.8); /* เปลี่ยนสีแสงเมื่อ hover */
+        }
+
+        img {
+            width: 150px;
+            height: auto;
+            margin: 0 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3); /* แสงรอบภาพไพ่ */
+        }
+
+        /* ปุ่ม "ทำนายอีกครั้ง / Draw Again" */
+        #draw-again-btn {
+            display: none; /* ซ่อนปุ่มทำนายอีกครั้งในตอนแรก */
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #B8860B; /* สีทองเข้มขึ้น */
+            color: white;
+            border: 2px solid #FFD700;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.2em;
+            box-shadow: 0 0 15px rgba(218, 165, 32, 0.9); /* แสงสีทองเข้ม */
+        }
+
+        /* ภาพ GIF สำหรับการสับไพ่ */
+        #shuffling-gif {
+            display: none;
+            margin-top: 20px;
+            width: 100%; /* ทำให้ GIF กว้างเต็มที่ */
+            border-radius: 10px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- กล่องเนื้อหาสำหรับสุ่มไพ่ -->
+    <div class="container">
+        <h1>The Magic Tarot</h1>
+        <p id="draw-status">จับไพ่ใบที่ 1</p>
+        
+        <!-- ปุ่มสุ่มไพ่มีรูปภาพ -->
+        <button id="draw-btn" onclick="drawCard()">
+            Draw a Card
+            <img src="images/card_back.jpg" alt="Card Back">
+        </button>
+        
+        <!-- ปุ่ม "ทำนายอีกครั้ง" -->
+        <button id="draw-again-btn" onclick="resetPage()">ทำนายอีกครั้ง / Draw Again</button>
+
+        <!-- ภาพ GIF สำหรับการสับไพ่ -->
+        <img id="shuffling-gif" src="images/shuffling.gif" alt="Shuffling Cards">
+
+        <div id="tarot-card"></div>
+    </div>
+
+    <script>
+        const tarotDeck = [
+            { name: 'The Fool', img: 'images/fool.jpg' },
+            { name: 'The Magician', img: 'images/magician.jpg' },
+            { name: 'The High Priestess', img: 'images/high_priestess.jpg' },
+            { name: 'The Empress', img: 'images/empress.jpg' },
+            { name: 'The Emperor', img: 'images/emperor.jpg' },
+            { name: 'The Hierophant', img: 'images/hierophant.jpg' },
+            { name: 'The Lovers', img: 'images/lovers.jpg' },
+            { name: 'The Chariot', img: 'images/chariot.jpg' },
+            { name: 'Strength', img: 'images/strength.jpg' },
+            { name: 'The Hermit', img: 'images/hermit.jpg' },
+            { name: 'Wheel of Fortune', img: 'images/wheel_of_fortune.jpg' },
+            { name: 'Justice', img: 'images/justice.jpg' },
+            { name: 'The Hanged Man', img: 'images/hanged_man.jpg' },
+            { name: 'Death', img: 'images/death.jpg' },
+            { name: 'Temperance', img: 'images/temperance.jpg' },
+            { name: 'The Devil', img: 'images/devil.jpg' },
+            { name: 'The Tower', img: 'images/tower.jpg' },
+            { name: 'The Star', img: 'images/star.jpg' },
+            { name: 'The Moon', img: 'images/moon.jpg' },
+            { name: 'The Sun', img: 'images/sun.jpg' },
+            { name: 'Judgement', img: 'images/judgement.jpg' },
+            { name: 'The World', img: 'images/world.jpg' },
+            { name: 'Ace of Wands', img: 'images/ace_of_wands.jpg' },
+            { name: 'Two of Wands', img: 'images/two_of_wands.jpg' },
+            { name: 'Three of Wands', img: 'images/three_of_wands.jpg' },
+            { name: 'Four of Wands', img: 'images/four_of_wands.jpg' },
+            { name: 'Five of Wands', img: 'images/five_of_wands.jpg' },
+            { name: 'Six of Wands', img: 'images/six_of_wands.jpg' },
+            { name: 'Seven of Wands', img: 'images/seven_of_wands.jpg' },
+            { name: 'Eight of Wands', img: 'images/eight_of_wands.jpg' },
+            { name: 'Nine of Wands', img: 'images/nine_of_wands.jpg' },
+            { name: 'Ten of Wands', img: 'images/ten_of_wands.jpg' },
+            { name: 'Page of Wands', img: 'images/page_of_wands.jpg' },
+            { name: 'Knight of Wands', img: 'images/knight_of_wands.jpg' },
+            { name: 'Queen of Wands', img: 'images/queen_of_wands.jpg' },
+            { name: 'King of Wands', img: 'images/king_of_wands.jpg' },
+            { name: 'Ace of Cups', img: 'images/ace_of_cups.jpg' },
+            { name: 'Two of Cups', img: 'images/two_of_cups.jpg' },
+            { name: 'Three of Cups', img: 'images/three_of_cups.jpg' },
+            { name: 'Four of Cups', img: 'images/four_of_cups.jpg' },
+            { name: 'Five of Cups', img: 'images/five_of_cups.jpg' },
+            { name: 'Six of Cups', img: 'images/six_of_cups.jpg' },
+            { name: 'Seven of Cups', img: 'images/seven_of_cups.jpg' },
+            { name: 'Eight of Cups', img: 'images/eight_of_cups.jpg' },
+            { name: 'Nine of Cups', img: 'images/nine_of_cups.jpg' },
+            { name: 'Ten of Cups', img: 'images/ten_of_cups.jpg' },
+            { name: 'Page of Cups', img: 'images/page_of_cups.jpg' },
+            { name: 'Knight of Cups', img: 'images/knight_of_cups.jpg' },
+            { name: 'Queen of Cups', img: 'images/queen_of_cups.jpg' },
+            { name: 'King of Cups', img: 'images/king_of_cups.jpg' },
+            { name: 'Ace of Swords', img: 'images/ace_of_swords.jpg' },
+            { name: 'Two of Swords', img: 'images/two_of_swords.jpg' },
+            { name: 'Three of Swords', img: 'images/three_of_swords.jpg' },
+            { name: 'Four of Swords', img: 'images/four_of_swords.jpg' },
+            { name: 'Five of Swords', img: 'images/five_of_swords.jpg' },
+            { name: 'Six of Swords', img: 'images/six_of_swords.jpg' },
+            { name: 'Seven of Swords', img: 'images/seven_of_swords.jpg' },
+            { name: 'Eight of Swords', img: 'images/eight_of_swords.jpg' },
+            { name: 'Nine of Swords', img: 'images/nine_of_swords.jpg' },
+            { name: 'Ten of Swords', img: 'images/ten_of_swords.jpg' },
+            { name: 'Page of Swords', img: 'images/page_of_swords.jpg' },
+            { name: 'Knight of Swords', img: 'images/knight_of_swords.jpg' },
+            { name: 'Queen of Swords', img: 'images/queen_of_swords.jpg' },
+            { name: 'King of Swords', img: 'images/king_of_swords.jpg' },
+            { name: 'Ace of Pentacles', img: 'images/ace_of_pentacles.jpg' },
+            { name: 'Two of Pentacles', img: 'images/two_of_pentacles.jpg' },
+            { name: 'Three of Pentacles', img: 'images/three_of_pentacles.jpg' },
+            { name: 'Four of Pentacles', img: 'images/four_of_pentacles.jpg' },
+            { name: 'Five of Pentacles', img: 'images/five_of_pentacles.jpg' },
+            { name: 'Six of Pentacles', img: 'images/six_of_pentacles.jpg' },
+            { name: 'Seven of Pentacles', img: 'images/seven_of_pentacles.jpg' },
+            { name: 'Eight of Pentacles', img: 'images/eight_of_pentacles.jpg' },
+            { name: 'Nine of Pentacles', img: 'images/nine_of_pentacles.jpg' },
+            { name: 'Ten of Pentacles', img: 'images/ten_of_pentacles.jpg' },
+            { name: 'Page of Pentacles', img: 'images/page_of_pentacles.jpg' },
+            { name: 'Knight of Pentacles', img: 'images/knight_of_pentacles.jpg' },
+            { name: 'Queen of Pentacles', img: 'images/queen_of_pentacles.jpg' },
+            { name: 'King of Pentacles', img: 'images/king_of_pentacles.jpg' }
+        ];
+
+        let selectedCards = [];
+        let drawCount = 0;
+
+        function drawCard() {
+            const drawButton = document.getElementById('draw-btn');
+            const shufflingGif = document.getElementById('shuffling-gif');
+            const drawAgainButton = document.getElementById('draw-again-btn');
+            const drawStatus = document.getElementById('draw-status');
+
+            // ซ่อนปุ่มตอนแสดง GIF สับไพ่
+            drawButton.style.display = 'none';
+            shufflingGif.style.display = 'block'; // แสดง GIF การสับไพ่
+
+            // ตั้งเวลาแสดงไพ่ (เช่น 2 วินาทีหลังจากกดปุ่ม)
+            setTimeout(function() {
+                shufflingGif.style.display = 'none'; // ซ่อน GIF หลังจากการสับเสร็จ
+                let card;
+                do {
+                    const randomIndex = Math.floor(Math.random() * tarotDeck.length);
+                    card = tarotDeck[randomIndex];
+                } while (selectedCards.includes(card));
+
+                selectedCards.push(card); // เก็บไพ่ที่สุ่มแล้ว
+                drawCount++;
+
+                // แสดงผลไพ่ที่สุ่มได้ในแนวนอน
+                document.getElementById('tarot-card').innerHTML += `
+                    <div style="display: inline-block; text-align: center;">
+                        <img src="${card.img}" alt="${card.name}">
+                    </div>
+                `;
+
+                // แสดงปุ่มสุ่มไพ่กลับมา
+                drawButton.style.display = 'flex';
+                drawButton.disabled = false; // เปิดการใช้งานปุ่มอีกครั้ง
+
+                // เปลี่ยนข้อความแสดงสถานะการจับไพ่
+                if (drawCount < 3) {
+                    drawStatus.textContent = `จับไพ่ใบที่ ${drawCount + 1}`;
+                } else {
+                    drawButton.style.display = 'none'; // ซ่อนปุ่มสุ่มไพ่หลังจากสุ่มครบ 3 ครั้ง
+                    drawAgainButton.style.display = 'block'; // แสดงปุ่ม "ทำนายอีกครั้ง"
+                    drawStatus.textContent = 'คุณจับไพ่ครบ 3 ใบแล้ว';
+
+                    // เรียกใช้ฟังก์ชันเพื่อแปลความหมายของไพ่
+                    fetchTarotCardMeaning(selectedCards.map(card => card.name)).then(meaning => {
+                        document.getElementById('tarot-card').innerHTML += `<p>${meaning}</p>`;
+                    });
+                }
+            }, 2000); // ตั้งเวลาให้รอ 2 วินาทีเพื่อจำลองการ "Shuffle"
+        }
+
+        async function fetchTarotCardMeaning(cards) {
+            const response = await fetch('/getTarotMeaning', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ cards }),
+            });
+
+            const data = await response.json();
+            return data.message;
+        }
+
+        function resetPage() {
+            selectedCards = [];
+            drawCount = 0;
+            document.getElementById('tarot-card').innerHTML = '';
+            document.getElementById('draw-again-btn').style.display = 'none'; // ซ่อนปุ่ม "ทำนายอีกครั้ง"
+            document.getElementById('draw-btn').style.display = 'flex'; // แสดงปุ่มสุ่มไพ่ใหม่
+            document.getElementById('draw-status').textContent = 'จับไพ่ใบที่ 1';
+        }
+
+        // ป้องกันการคลิกขวาบนหน้าเว็บ
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault(); // ปิดการทำงานของเมนูคลิกขวา
+        });
+    </script>
+</body>
+</html>
