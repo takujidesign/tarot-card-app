@@ -1,4 +1,4 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -78,6 +78,7 @@
             padding: 2px 5px;
             font-size: 0.8em;
             border-radius: 3px;
+            transform: rotate(0deg); /* ทำให้ตัวเลขไม่หมุนตามไพ่ */
         }
 
         /* ปุ่มสุ่มไพ่ */
@@ -129,8 +130,8 @@
         #shuffling-gif {
             display: none;
             margin-top: 20px;
-            width: 90%; /* ทำให้ GIF กว้างเต็มที่ */
-            height: 50%;
+            width: 100%; /* ทำให้ GIF กว้างเต็มที่ */
+            height: 100%;
             border-radius: 10px;
         }
 
@@ -141,7 +142,7 @@
     <!-- กล่องเนื้อหาสำหรับสุ่มไพ่ -->
     <div class="container">
         <h1>The Magic Tarot</h1>
-        <p id="draw-status">ทำนายไพ่ 5 ใบ จับไพ่ใบที่ 1</p>
+        <p id="draw-status">จับไพ่ใบที่ 1</p>
         
         <!-- ปุ่มสุ่มไพ่มีรูปภาพ -->
         <button id="draw-btn" onclick="drawCard()">
@@ -268,7 +269,7 @@
                 selectedCards.push({ ...card, isReversed }); // เก็บไพ่ที่สุ่มแล้ว
                 drawCount++;
 
-                // จัดเรียงไพ่เป็นครึ่งวงกลม พร้อมตัวเลขกำกับ
+                // จัดเรียงไพ่เป็นครึ่งวงกลม พร้อมตัวเลขกำกับ โดยตัวเลขไม่หมุนตามไพ่
                 tarotCardsDiv.innerHTML += `
                     <div class="card ${isReversed ? 'reversed' : ''}">
                         <div class="card-number">${drawCount}</div>
