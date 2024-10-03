@@ -44,18 +44,19 @@
             font-size: 1.5em;
             margin-top: 20px;
             display: grid;
-            grid-template-columns: repeat(5, 1fr); /* จัดเป็นสองแถว */
-            grid-gap: 10px;
+            grid-template-columns: repeat(5, 1fr); /* สร้าง 2 แถว, 5 ใบต่อแถว */
+            grid-gap: 15px;
             justify-items: center;
         }
 
         /* การจัดการขนาดไพ่ */
         .card {
-            width: 120px;
-            height: 200px;
+            width: 100px;
+            height: 180px;
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
             position: relative;
+            text-align: center;
         }
 
         /* ใส่ตัวเลขกำกับลำดับ */
@@ -95,8 +96,8 @@
         }
 
         button img {
-            width: 100px;
-            height: 140px;
+            width: 60px;
+            height: 100px;
             margin-top: 10px;
             border-radius: 10px;
         }
