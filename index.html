@@ -65,6 +65,11 @@
             transition: box-shadow 0.3s ease;
         }
 
+        /* เงาและแสงเรืองคงที่ไม่กลับหัว */
+        .card-container .card-shadow {
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.3);
+        }
+
         .reversed {
             transform: rotate(180deg); /* ไพ่กลับหัว */
         }
@@ -266,7 +271,7 @@
                 selectedCards.push({ ...card, isReversed }); // เก็บไพ่ที่สุ่มแล้ว
                 drawCount++;
 
-                // จัดเรียงไพ่เป็นครึ่งวงกลม พร้อมตัวเลขกำกับ โดยตัวเลขไม่หมุนตามไพ่
+                // จัดเรียงไพ่เป็นครึ่งวงกลม พร้อมตัวเลขกำกับ โดยแสงและเงาไม่หมุนตามไพ่
                 tarotCardsDiv.innerHTML += `
                     <div class="card-container">
                         <img class="card ${isReversed ? 'reversed' : ''}" src="${card.img}" alt="${card.name}">
