@@ -11,6 +11,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
             height: 100vh; /* ใช้ความสูงเต็มหน้าจอ */
             background-color: #1d1d1d; /* พื้นหลังสีดำ */
             color: #f5e1da; /* สีข้อความที่ดูนุ่มนวล */
@@ -82,6 +83,22 @@
         .small {
             width: 50px;
             height: 90px;
+        }
+
+        /* กล่องแสดงไพ่ที่สุ่มได้ทั้งหมด */
+        .horizontal-box {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .horizontal-card {
+            width: 120px;
+            height: 210px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
         }
 
         /* ปุ่มสุ่มไพ่ */
@@ -159,6 +176,9 @@
         <img id="shuffling-gif" src="images/shuffling.gif" alt="Shuffling Cards">
 
         <div id="tarot-card"></div>
+
+        <!-- กล่องแสดงไพ่ที่สุ่มได้ -->
+        <div id="horizontal-box" class="horizontal-box"></div>
     </div>
 
     <script>
@@ -252,6 +272,7 @@
             const drawAgainButton = document.getElementById('draw-again-btn');
             const drawStatus = document.getElementById('draw-status');
             const tarotCardsDiv = document.getElementById('tarot-card');
+            const horizontalBox = document.getElementById('horizontal-box');
 
             // ซ่อนปุ่มตอนแสดง GIF สับไพ่
             drawButton.style.display = 'none';
@@ -266,8 +287,8 @@
                     card = tarotDeck[randomIndex];
                 } while (selectedCards.includes(card));
 
-                // โอกาส 30% ที่ไพ่จะกลับหัว
-                const isReversed = Math.random() < 0.3;
+                // โอกาส 20% ที่ไพ่จะกลับหัว
+                const isReversed = Math.random() < 0.2;
 
                 selectedCards.push({ ...card, isReversed }); // เก็บไพ่ที่สุ่มแล้ว
                 drawCount++;
@@ -275,9 +296,14 @@
                 // ย่อไพ่ถ้าไม่ใช่ใบที่ 1 หรือ 2
                 const cardClass = drawCount > 2 ? 'small' : '';
 
-                // แสดงผลไพ่
+                // แสดงผลไพ่ใน Celtic Cross
                 tarotCardsDiv.innerHTML += `
                     <img src="${card.img}" alt="${card.name}" class="card card${drawCount} ${cardClass} ${isReversed ? 'reversed' : ''}">
+                `;
+
+                // แสดงผลไพ่ในแนวนอนขนาดใหญ่ขึ้น
+                horizontalBox.innerHTML += `
+                    <img src="${card.img}" alt="${card.name}" class="horizontal-card ${isReversed ? 'reversed' : ''}">
                 `;
 
                 // แสดงปุ่มสุ่มไพ่กลับมา
@@ -299,6 +325,7 @@
             selectedCards = [];
             drawCount = 0;
             document.getElementById('tarot-card').innerHTML = '';
+            document.getElementById('horizontal-box').innerHTML = '';
             document.getElementById('draw-again-btn').style.display = 'none'; // ซ่อนปุ่ม "ทำนายอีกครั้ง"
             document.getElementById('draw-btn').style.display = 'flex'; // แสดงปุ่มสุ่มไพ่ใหม่
             document.getElementById('draw-status').textContent = 'จับไพ่ใบที่ 1';
