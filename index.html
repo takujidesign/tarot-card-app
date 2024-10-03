@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Magic Tarot - Celtic Cross Layout</title>
+    <title>The Magic Tarot - Celtic Cross</title>
     <style>
         /* Center the content */
         body {
@@ -26,7 +26,7 @@
             padding: 20px;
             border-radius: 15px;
             box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
-            max-width: 1200px;
+            max-width: 1000px;
         }
 
         h1 {
@@ -66,8 +66,8 @@
 
         /* Card size and appearance */
         .card {
-            width: 144px; /* 20% larger */
-            height: 252px; /* 20% larger */
+            width: 95px;  /* ลดขนาดครึ่งหนึ่งจากขนาดปกติ */
+            height: 157px; /* ลดขนาดครึ่งหนึ่งจากขนาดปกติ */
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
             transition: transform 0.3s ease;
@@ -77,18 +77,6 @@
         /* Styling for reversed cards */
         .reversed {
             transform: rotate(180deg);
-        }
-
-        /* Number labels on cards */
-        .card-number {
-            position: absolute;
-            top: 5px;
-            left: 5px;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 5px 8px;
-            border-radius: 5px;
-            font-size: 16px;
         }
 
         /* Button styling */
@@ -273,7 +261,6 @@
                 // Display drawn card
                 tarotCardsDiv.innerHTML += `
                     <div class="card card${drawCount} ${isReversed ? 'reversed' : ''}">
-                        <span class="card-number">${drawCount}</span>
                         <img src="${card.img}" alt="${card.name}">
                     </div>
                 `;
@@ -288,7 +275,7 @@
                     drawAgainButton.style.display = 'block';
                     document.getElementById('draw-status').textContent = 'คุณจับไพ่ครบ 10 ใบแล้ว';
                 }
-            }, 2000);
+            }, 2000); // 2 seconds shuffle delay
         }
 
         function resetPage() {
@@ -300,7 +287,7 @@
             document.getElementById('draw-status').textContent = 'จับไพ่ใบที่ 1';
         }
 
-        // Prevent right-click
+        // Disable right-click context menu
         document.addEventListener('contextmenu', function(e) {
             e.preventDefault();
         });
