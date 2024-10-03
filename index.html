@@ -44,15 +44,15 @@
             font-size: 1.5em;
             margin-top: 20px;
             display: grid;
-            grid-template-columns: repeat(5, 1fr); /* แบ่งเป็น 2 แถว */
+            grid-template-columns: repeat(5, 1fr); /* จัดเป็นสองแถว */
             grid-gap: 10px;
             justify-items: center;
         }
 
         /* การจัดการขนาดไพ่ */
         .card {
-            width: 95px;
-            height: 157px;
+            width: 120px;
+            height: 200px;
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
             position: relative;
@@ -78,7 +78,7 @@
         /* ปุ่มสุ่มไพ่ */
         button {
             padding: 10px;
-            font-size: 0.9em;
+            font-size: 1em;
             background-color: #B8860B; /* สีทองเข้มขึ้น */
             color: white;
             border: 2px solid #FFD700;
@@ -89,14 +89,14 @@
             flex-direction: column; /* เรียงข้อความด้านบน รูปภาพด้านล่าง */
             align-items: center;
             justify-content: center; /* จัดให้อยู่ตรงกลางในแนวตั้ง */
-            width: 50%; /* ทำให้ปุ่มเล็กลงครึ่งหนึ่ง */
+            width: 100%; 
             transition: background-color 0.3s ease;
             box-shadow: 0 0 15px rgba(218, 165, 32, 0.9); /* แสงสีทองเข้มขึ้น */
         }
 
         button img {
-            width: 60px;
-            height: 100px;
+            width: 100px;
+            height: 140px;
             margin-top: 10px;
             border-radius: 10px;
         }
