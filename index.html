@@ -3,148 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Magic Tarot - Celtic Cross</title>
+    <title>The Magic Tarot</title>
     <style>
-        /* Center the content */
+        /* จัดให้ทั้งหน้าจออยู่ตรงกลาง */
         body {
             font-family: 'Cursive', Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background-color: #1d1d1d;
-            color: #f5e1da;
+            height: 100vh; /* ใช้ความสูงเต็มหน้าจอ */
+            background-color: #1d1d1d; /* พื้นหลังสีดำ */
+            color: #f5e1da; /* สีข้อความที่ดูนุ่มนวล */
             margin: 0;
-            background-image: url('images/stars_background.jpg');
+            background-image: url('images/stars_background.jpg'); /* เพิ่มพื้นหลังดวงดาว */
             background-size: cover;
         }
 
-        /* Container styling */
+        /* กล่องเนื้อหาที่ดูมีมนต์ขลัง */
         .container {
             text-align: center;
             background-color: rgba(0, 0, 0, 0.7);
             padding: 20px;
             border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
-            max-width: 1000px;
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2); /* เพิ่มแสงเงารอบกล่อง */
+            max-width: 800px;
         }
 
         h1 {
             font-size: 2.5em;
-            color: #FFD700;
+            color: #FFD700; /* สีทอง */
             text-shadow: 0 0 10px rgba(255, 255, 0, 0.8);
         }
 
         p {
             font-size: 1.2em;
-            color: #e2d3c5;
+            color: #e2d3c5; /* สีข้อความ */
         }
 
         #tarot-card {
+            font-size: 1.5em;
             margin-top: 20px;
             display: grid;
-            grid-template-areas: 
-                "card6 . card3 . card10"
-                "card6 card1 card2 card4 card10"
-                ". card5 card2 card9 card10"
-                ". . card7 card8 card8";
+            grid-template-columns: repeat(5, 1fr); /* แบ่งเป็น 2 แถว */
             grid-gap: 10px;
             justify-items: center;
         }
 
-        /* Individual card placement */
-        .card1 { grid-area: card1; }
-        .card2 { grid-area: card2; }
-        .card3 { grid-area: card3; }
-        .card4 { grid-area: card4; }
-        .card5 { grid-area: card5; }
-        .card6 { grid-area: card6; }
-        .card7 { grid-area: card7; }
-        .card8 { grid-area: card8; }
-        .card9 { grid-area: card9; }
-        .card10 { grid-area: card10; }
-
-        /* Card size and appearance */
+        /* การจัดการขนาดไพ่ */
         .card {
-            width: 95px;  /* ลดขนาดครึ่งหนึ่งจากขนาดปกติ */
-            height: 157px; /* ลดขนาดครึ่งหนึ่งจากขนาดปกติ */
+            width: 95px;
+            height: 157px;
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-            transition: transform 0.3s ease;
             position: relative;
         }
 
-        /* Styling for reversed cards */
+        /* ใส่ตัวเลขกำกับลำดับ */
+        .card-number {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 2px 5px;
+            font-size: 0.8em;
+            border-radius: 3px;
+        }
+
+        /* ไพ่กลับหัว */
         .reversed {
             transform: rotate(180deg);
         }
 
-        /* Button styling */
+        /* ปุ่มสุ่มไพ่ */
         button {
-            padding: 15px;
-            font-size: 1.2em;
-            background-color: #B8860B;
+            padding: 10px;
+            font-size: 0.9em;
+            background-color: #B8860B; /* สีทองเข้มขึ้น */
             color: white;
             border: 2px solid #FFD700;
             border-radius: 10px;
             cursor: pointer;
             margin-top: 20px;
             display: flex;
+            flex-direction: column; /* เรียงข้อความด้านบน รูปภาพด้านล่าง */
             align-items: center;
-            justify-content: center;
-            width: 100%;
+            justify-content: center; /* จัดให้อยู่ตรงกลางในแนวตั้ง */
+            width: 50%; /* ทำให้ปุ่มเล็กลงครึ่งหนึ่ง */
             transition: background-color 0.3s ease;
-            box-shadow: 0 0 15px rgba(218, 165, 32, 0.9);
+            box-shadow: 0 0 15px rgba(218, 165, 32, 0.9); /* แสงสีทองเข้มขึ้น */
+        }
+
+        button img {
+            width: 60px;
+            height: 100px;
+            margin-top: 10px;
+            border-radius: 10px;
         }
 
         button:hover {
-            background-color: #8B6508;
-            box-shadow: 0 0 25px rgba(255, 255, 0, 0.8);
+            background-color: #8B6508; /* สีทองเข้มกว่าเมื่อ hover */
+            box-shadow: 0 0 25px rgba(255, 255, 0, 0.8); /* เปลี่ยนสีแสงเมื่อ hover */
         }
 
-        /* "Draw Again" button */
+        /* ปุ่ม "ทำนายอีกครั้ง / Draw Again" */
         #draw-again-btn {
-            display: none;
+            display: none; /* ซ่อนปุ่มทำนายอีกครั้งในตอนแรก */
             padding: 10px;
             margin-top: 20px;
-            background-color: #B8860B;
+            background-color: #B8860B; /* สีทองเข้มขึ้น */
             color: white;
             border: 2px solid #FFD700;
             border-radius: 10px;
             cursor: pointer;
             font-size: 1.2em;
-            box-shadow: 0 0 15px rgba(218, 165, 32, 0.9);
+            box-shadow: 0 0 15px rgba(218, 165, 32, 0.9); /* แสงสีทองเข้ม */
         }
 
-        /* Shuffling GIF */
+        /* ภาพ GIF สำหรับการสับไพ่ */
         #shuffling-gif {
             display: none;
             margin-top: 20px;
-            width: 100%;
+            width: 100%; /* ทำให้ GIF กว้างเต็มที่ */
             border-radius: 10px;
         }
+
     </style>
 </head>
 <body>
 
-    <!-- Main container for card draw -->
+    <!-- กล่องเนื้อหาสำหรับสุ่มไพ่ -->
     <div class="container">
         <h1>The Magic Tarot</h1>
         <p id="draw-status">จับไพ่ใบที่ 1</p>
         
-        <!-- Draw Card Button -->
+        <!-- ปุ่มสุ่มไพ่มีรูปภาพและข้อความอยู่ข้างใต้ -->
         <button id="draw-btn" onclick="drawCard()">
-            Draw a Card
             <img src="images/card_back.jpg" alt="Card Back">
+            Draw a Card
         </button>
         
-        <!-- Draw Again Button -->
+        <!-- ปุ่ม "ทำนายอีกครั้ง" -->
         <button id="draw-again-btn" onclick="resetPage()">ทำนายอีกครั้ง / Draw Again</button>
 
-        <!-- Shuffling GIF -->
+        <!-- ภาพ GIF สำหรับการสับไพ่ -->
         <img id="shuffling-gif" src="images/shuffling.gif" alt="Shuffling Cards">
 
-        <!-- Tarot Card Layout -->
         <div id="tarot-card"></div>
     </div>
 
@@ -239,57 +243,60 @@
             const drawAgainButton = document.getElementById('draw-again-btn');
             const tarotCardsDiv = document.getElementById('tarot-card');
 
-            // Hide button and show shuffling GIF
+            // ซ่อนปุ่มตอนแสดง GIF สับไพ่
             drawButton.style.display = 'none';
-            shufflingGif.style.display = 'block';
+            shufflingGif.style.display = 'block'; // แสดง GIF การสับไพ่
 
-            // Simulate shuffling delay
+            // ตั้งเวลาแสดงไพ่ (เช่น 2 วินาทีหลังจากกดปุ่ม)
             setTimeout(function() {
-                shufflingGif.style.display = 'none'; // Hide shuffling GIF
+                shufflingGif.style.display = 'none'; // ซ่อน GIF หลังจากการสับเสร็จ
                 let card;
                 do {
                     const randomIndex = Math.floor(Math.random() * tarotDeck.length);
                     card = tarotDeck[randomIndex];
                 } while (selectedCards.includes(card));
 
-                // 20% chance for reversed card
+                // โอกาส 20% ที่ไพ่จะกลับหัว
                 const isReversed = Math.random() < 0.2;
 
-                selectedCards.push({ ...card, isReversed });
+                selectedCards.push({ ...card, isReversed }); // เก็บไพ่ที่สุ่มแล้ว
                 drawCount++;
 
-                // Display drawn card
+                // แสดงผลไพ่ใน 2 แถว พร้อมตัวเลขกำกับลำดับ
                 tarotCardsDiv.innerHTML += `
-                    <div class="card card${drawCount} ${isReversed ? 'reversed' : ''}">
+                    <div class="card ${isReversed ? 'reversed' : ''}">
+                        <div class="card-number">${drawCount}</div>
                         <img src="${card.img}" alt="${card.name}">
                     </div>
                 `;
 
-                // Display status or finish
+                // แสดงปุ่มสุ่มไพ่กลับมา
+                drawButton.style.display = 'flex';
+                drawButton.disabled = false; // เปิดการใช้งานปุ่มอีกครั้ง
+
+                // เปลี่ยนข้อความแสดงสถานะการจับไพ่
                 if (drawCount < 10) {
-                    drawButton.style.display = 'flex';
-                    drawButton.disabled = false;
                     document.getElementById('draw-status').textContent = `จับไพ่ใบที่ ${drawCount + 1}`;
                 } else {
-                    drawButton.style.display = 'none';
-                    drawAgainButton.style.display = 'block';
+                    drawButton.style.display = 'none'; // ซ่อนปุ่มสุ่มไพ่หลังจากสุ่มครบ 10 ครั้ง
+                    drawAgainButton.style.display = 'block'; // แสดงปุ่ม "ทำนายอีกครั้ง"
                     document.getElementById('draw-status').textContent = 'คุณจับไพ่ครบ 10 ใบแล้ว';
                 }
-            }, 2000); // 2 seconds shuffle delay
+            }, 2000); // ตั้งเวลาให้รอ 2 วินาทีเพื่อจำลองการ "Shuffle"
         }
 
         function resetPage() {
             selectedCards = [];
             drawCount = 0;
             document.getElementById('tarot-card').innerHTML = '';
-            document.getElementById('draw-again-btn').style.display = 'none';
-            document.getElementById('draw-btn').style.display = 'flex';
+            document.getElementById('draw-again-btn').style.display = 'none'; // ซ่อนปุ่ม "ทำนายอีกครั้ง"
+            document.getElementById('draw-btn').style.display = 'flex'; // แสดงปุ่มสุ่มไพ่ใหม่
             document.getElementById('draw-status').textContent = 'จับไพ่ใบที่ 1';
         }
 
-        // Disable right-click context menu
+        // ป้องกันการคลิกขวาบนหน้าเว็บ
         document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
+            e.preventDefault(); // ปิดการทำงานของเมนูคลิกขวา
         });
     </script>
 </body>
