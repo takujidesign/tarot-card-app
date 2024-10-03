@@ -44,22 +44,20 @@
             font-size: 1.5em;
             margin-top: 20px;
             display: grid;
-            grid-template-columns: repeat(5, 1fr); /* สร้าง 2 แถว, 5 ใบต่อแถว */
+            grid-template-columns: repeat(5, 1fr); /* จัดเรียงเป็น 2 แถว 5 ใบต่อแถว */
             grid-gap: 15px;
             justify-items: center;
         }
 
-        /* การจัดการขนาดไพ่ */
         .card {
             width: 100px;
             height: 180px;
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
             position: relative;
-            text-align: center;
         }
 
-        /* ใส่ตัวเลขกำกับลำดับ */
+        /* ตัวเลขลำดับที่กำกับบนไพ่ */
         .card-number {
             position: absolute;
             top: 5px;
@@ -86,13 +84,9 @@
             border-radius: 10px;
             cursor: pointer;
             margin-top: 20px;
-            display: flex;
-            flex-direction: column; /* เรียงข้อความด้านบน รูปภาพด้านล่าง */
-            align-items: center;
-            justify-content: center; /* จัดให้อยู่ตรงกลางในแนวตั้ง */
-            width: 100%; 
+            width: 50%; /* ขนาดเล็กลงครึ่งหนึ่ง */
             transition: background-color 0.3s ease;
-            box-shadow: 0 0 15px rgba(218, 165, 32, 0.9); /* แสงสีทองเข้มขึ้น */
+            box-shadow: 0 0 15px rgba(218, 165, 32, 0.9); /* แสงสีทองเข้ม */
         }
 
         button img {
@@ -138,10 +132,10 @@
         <h1>The Magic Tarot</h1>
         <p id="draw-status">จับไพ่ใบที่ 1</p>
         
-        <!-- ปุ่มสุ่มไพ่มีรูปภาพและข้อความอยู่ข้างใต้ -->
+        <!-- ปุ่มสุ่มไพ่มีรูปภาพ -->
         <button id="draw-btn" onclick="drawCard()">
-            <img src="images/card_back.jpg" alt="Card Back">
             Draw a Card
+            <img src="images/card_back.jpg" alt="Card Back">
         </button>
         
         <!-- ปุ่ม "ทำนายอีกครั้ง" -->
